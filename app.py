@@ -31,7 +31,7 @@ while True:
     while epoch < NUMBER_EPOCHS:
       print 'Best:', best
 
-      score, epoch, game_over = step(individual, g, score, epoch)
+      score, epoch, game_over = step(individual, g, score, epoch, p.generation)
 
       if game_over:
         break
