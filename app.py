@@ -35,4 +35,10 @@ while epoch < 100:
   if game_over:
     break
 
+  i.set_state(**{
+    'score': score,
+    'lost': game_over,
+    'turns': epoch
+  })
+
   time.sleep(0.5)
