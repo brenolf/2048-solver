@@ -1,6 +1,6 @@
 from Grid import Grid
 import numpy as np
-from GridUtils import merge, getRotatedMatrix
+from GridUtils import merge, getRotatedMatrix, DIRECTIONS
 
 class PlayableGrid(Grid):
   def __init__(self, w=4, h=4):
@@ -9,7 +9,22 @@ class PlayableGrid(Grid):
 
   def action(self, direction):
     self.moves += 1
+    points, self.arr = self.__get_moved_grid(direction)
 
+    super(PlayableGrid, self)._set_random_tile()
+
+    return points.sum(), self.moves, self.__is_game_over()
+
+  def __is_game_over(self):
+    for direction in DIRECTIONS:
+      arr = self.__get_moved_grid(direction)
+
+      if not np.array_equal(arr, self.arr):
+        return False
+
+    return True
+
+  def __get_moved_grid(self, direction):
     arr = getRotatedMatrix(self.arr, self.w, self.h, direction).transpose()
 
     points = np.zeros((arr.shape[1], 1))
@@ -21,10 +36,6 @@ class PlayableGrid(Grid):
 
     arr = np.array(arr)
 
-    self.arr = getRotatedMatrix(
+    return points, getRotatedMatrix(
       arr.transpose(), self.w, self.h, direction, True\
     ).reshape(self.w * self.h)
-
-    super(PlayableGrid, self)._set_random_tile()
-
-    return points.sum(), self.moves

@@ -20,6 +20,6 @@ class Individual(object):
 
     return ''
 
-  def act(self, input):
+  def get_action(self, input):
     predictions = self.model.predict(input.reshape((-1, self.input_dim)))
     return DIRECTIONS[predictions.argmax()]
