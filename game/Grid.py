@@ -1,4 +1,3 @@
-import random
 import numpy as np
 
 class Grid(object):
@@ -9,7 +8,6 @@ class Grid(object):
     self.h = h
     self.arr = np.array([0] * (w * h))
 
-    random.seed(1234)
     self.__start()
 
   def __str__(self):
@@ -29,8 +27,8 @@ class Grid(object):
     if len(spots) == 0:
       return False
 
-    place = random.choice(spots)
-    self.arr[place] = 2 if random.random() < 0.9 else 4
+    place = np.random.choice(spots)
+    self.arr[place] = 2 if np.random.random() < 0.9 else 4
 
     return True
 

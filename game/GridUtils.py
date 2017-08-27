@@ -1,8 +1,8 @@
 import numpy as np
 
-def getRotatedMatrix(arr, w, h, direction, undo=False):
-  DIRECTIONS = ['down', 'left', 'up', 'right']
+DIRECTIONS = ['down', 'left', 'up', 'right']
 
+def getRotatedMatrix(arr, w, h, direction, undo=False):
   i = -1 if undo else 1
   dir = i * DIRECTIONS.index(direction)
 
