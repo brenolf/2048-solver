@@ -34,3 +34,6 @@ class Grid(object):
 
     return True
 
+  def _best_tile(self):
+    return int(self.arr.max())
+

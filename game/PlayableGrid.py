@@ -13,7 +13,7 @@ class PlayableGrid(Grid):
 
     super(PlayableGrid, self)._set_random_tile()
 
-    return points.sum(), self.moves, self.__is_game_over()
+    return points.sum(), self.moves, self.__is_game_over(), self._best_tile()
 
   def __is_game_over(self):
     for direction in DIRECTIONS:

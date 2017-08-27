@@ -41,6 +41,8 @@ class Population(object):
 
     self.group = next_gen + winners
 
+    return ordered[0]
+
   def __get_name(self):
     self.individuals += 1
     return 'g{}.i{}'.format(self.generation, self.individuals)

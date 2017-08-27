@@ -4,7 +4,7 @@ import player
 import time
 import os
 
-NUMBER_EPOCHS = 30
+NUMBER_EPOCHS = 70
 SLEEP_TIME = 0.01
 SEED = 1234
 
@@ -15,22 +15,54 @@ from player.Population import Population
 from player.Individual import Individual
 from utils import step
 
+s = SEED
+
 g = Game(SEED)
-p = Population(g.w * g.h, 6)
+p = Population(g.w * g.h)
+best = None
 
-for individual in p.group:
-  g.prepare()
+while True:
+  for individual in p.group:
+    g.prepare()
 
-  epoch = 0
-  score = 0
+    epoch = 0
+    score = 0
 
-  while epoch < NUMBER_EPOCHS:
-    score, epoch, game_over = step(individual, g, score, epoch)
+    while epoch < NUMBER_EPOCHS:
+      print 'Best:', best
 
-    if game_over:
-      break
+      score, epoch, game_over = step(individual, g, score, epoch)
 
-    time.sleep(SLEEP_TIME)
-    os.system('clear')
+      if game_over:
+        break
 
-p.evolve()
+      time.sleep(SLEEP_TIME)
+      os.system('clear')
+
+  best = p.evolve()
+  print best
+
+  if best.kwstate['best'] == 2048:
+    proceed = raw_input('2048! Play with winner?')
+    g = Game(s)
+    g.prepare()
+    score = 0
+    epoch = 0
+
+    while epoch < NUMBER_EPOCHS:
+      score, epoch, game_over = step(best, g, score, epoch)
+
+      if game_over:
+        break
+
+      time.sleep(0.6)
+      os.system('clear')
+
+
+  # proceed = raw_input('proceed?')
+
+  # if proceed == 'N' or proceed == 'n':
+  #   break
+
+  s += 1
+  g = Game(s)

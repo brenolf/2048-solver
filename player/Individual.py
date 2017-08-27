@@ -17,10 +17,8 @@ class Individual(object):
     self.name = name
 
   def __str__(self):
-    for layer in self.model.layers:
-      print '>', layer.get_weights()
-
-    return '--'
+    state = self.kwstate
+    return '{} ({}) {} pts - best tile: {}'.format(self.name, state['turns'], int(state['score']), state['best'])
 
   def get_action(self, input):
     predictions = self.model.predict(input.reshape((-1, self.input_dim)))
