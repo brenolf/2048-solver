@@ -4,41 +4,33 @@ import player
 import time
 import os
 
-np.random.seed(1234)
+NUMBER_EPOCHS = 30
+SLEEP_TIME = 0.01
+SEED = 1234
+
+np.random.seed(SEED)
 
 from game.PlayableGrid import PlayableGrid as Game
+from player.Population import Population
 from player.Individual import Individual
+from utils import step
 
-g = Game()
-i = Individual(g.w * g.h)
+g = Game(SEED)
+p = Population(g.w * g.h, 6)
 
-epoch = 0
-score = 0
+for individual in p.group:
+  g.prepare()
 
-print g
-time.sleep(0.5)
+  epoch = 0
+  score = 0
 
-while epoch < 100:
-  epoch += 1
+  while epoch < NUMBER_EPOCHS:
+    score, epoch, game_over = step(individual, g, score, epoch)
 
-  action = i.get_action(g.arr)
-  points, moves, game_over = g.action(action)
+    if game_over:
+      break
 
-  score += points
+    time.sleep(SLEEP_TIME)
+    os.system('clear')
 
-  os.system('clear')
-
-  print '{}) {} pts'.format(epoch, int(score))
-  print action
-  print g
-
-  if game_over:
-    break
-
-  i.set_state(**{
-    'score': score,
-    'lost': game_over,
-    'turns': epoch
-  })
-
-  time.sleep(0.5)
+p.evolve()

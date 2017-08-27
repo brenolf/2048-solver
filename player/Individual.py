@@ -5,15 +5,16 @@ from keras.models import Sequential
 from keras.layers import Dense, Activation
 
 class Individual(object):
-  def __init__(self, input_dim):
+  def __init__(self, input_dim, name=''):
     model = Sequential()
 
-    model.add(Dense(units=(input_dim), input_dim=input_dim, bias_initializer='ones'))
+    model.add(Dense(units=(input_dim * 2), input_dim=input_dim, bias_initializer='ones'))
     model.add(Dense(units=4, bias_initializer='ones'))
     model.add(Activation('softmax'))
 
     self.model = model
     self.input_dim = input_dim
+    self.name = name
 
   def __str__(self):
     for layer in self.model.layers:
@@ -28,6 +29,13 @@ class Individual(object):
   def set_state(self, *state, **kwstate):
     self.state = state
     self.kwstate = kwstate
+
+  def fitness(self):
+    state = self.kwstate
+
+    game_over_exp = 2 if state['lost'] else 1
+
+    return state['score'] / (state['turns'] ** game_over_exp)
 
   def mutate(self):
     for layer in self.model.layers:

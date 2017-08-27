@@ -3,11 +3,13 @@ import numpy as np
 class Grid(object):
   initial_tiles = 2
 
-  def __init__(self, w, h):
+  def __init__(self, w, h, seed):
     self.w = w
     self.h = h
-    self.arr = np.array([0] * (w * h))
+    self.rand = np.random.RandomState(seed)
 
+  def prepare(self):
+    self.arr = np.array([0] * (self.w * self.h))
     self.__start()
 
   def __str__(self):
@@ -27,8 +29,8 @@ class Grid(object):
     if len(spots) == 0:
       return False
 
-    place = np.random.choice(spots)
-    self.arr[place] = 2 if np.random.random() < 0.9 else 4
+    place = self.rand.choice(spots)
+    self.arr[place] = 2 if self.rand.rand() < 0.9 else 4
 
     return True
 

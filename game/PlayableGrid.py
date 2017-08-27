@@ -3,8 +3,8 @@ import numpy as np
 from GridUtils import merge, getRotatedMatrix, DIRECTIONS
 
 class PlayableGrid(Grid):
-  def __init__(self, w=4, h=4):
-    super(PlayableGrid, self).__init__(w, h)
+  def __init__(self, seed, w=4, h=4):
+    super(PlayableGrid, self).__init__(w, h, seed)
     self.moves = 0
 
   def action(self, direction):
